@@ -17,3 +17,11 @@ def test_image_size_and_dtype() -> None:
     img = render(scene, 40, 30)
     assert img.shape == (30, 40, 3)
     assert img.dtype == np.uint8
+
+
+def test_background_matches_ambient() -> None:
+    """Верх кадра — фон, окрашенный ambient: ratio_A * 255."""
+    scene = parse_scene_file(SCENES / "three.rt")
+    img = render(scene, 40, 30)
+    expected = int(round(scene.ambient.ratio * 255))
+    assert img[0, :, :].max() == expected
