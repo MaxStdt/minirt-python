@@ -33,7 +33,6 @@ def main(argv: list[str] | None = None) -> int:
             from PIL import Image
 
             Image.fromarray(img).save(args.out)
-
     except (RtError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
