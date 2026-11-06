@@ -7,6 +7,7 @@ import sys
 
 from minirt.errors import RtError
 from minirt.parser import parse_scene_file
+from minirt.render import render
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -27,6 +28,12 @@ def main(argv: list[str] | None = None) -> int:
         return 2 if exc.code != 0 else 0
     try:
         scene = parse_scene_file(args.scene)
+        img = render(scene, args.width, args.height)
+        if args.out:
+            from PIL import Image
+
+            Image.fromarray(img).save(args.out)
+
     except (RtError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
