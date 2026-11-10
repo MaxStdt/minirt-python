@@ -25,3 +25,9 @@ def test_background_matches_ambient() -> None:
     img = render(scene, 40, 30)
     expected = int(round(scene.ambient.ratio * 255))
     assert img[0, :, :].max() == expected
+
+
+def test_lit_floor_bottom() -> None:
+    scene = parse_scene_file(SCENES / "three.rt")
+    img = render(scene, 40, 30)
+    assert img[-1, :, :].max() > 0
